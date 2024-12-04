@@ -1,9 +1,9 @@
-import { Button } from "./components/ui/button";
+import HomePage from "./components/HomePage";
 
 const App = () => {
   return (
-    <div>
-      <Button variant="default">Click Here</Button>
+    <div className="bg-gray-200">
+      <HomePage />
     </div>
   );
 };
