@@ -1,12 +1,18 @@
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ToastAction } from "@/components/ui/toast";
 import axios from "axios";
 import { BASE_URL } from "../../utils/constants";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 type Inputs = {
@@ -250,6 +256,17 @@ const SignUp = () => {
             </Button>
           </form>
         </CardContent>
+        <CardFooter>
+          <p>
+            Already have an account ?
+            <span>
+              {" "}
+              <Link to="/login" className="text-blue-600">
+                Login
+              </Link>
+            </span>
+          </p>
+        </CardFooter>
       </Card>
     </div>
   );
