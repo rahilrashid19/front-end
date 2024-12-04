@@ -27,7 +27,7 @@ const Login = () => {
     );
     if (res.status === 200) {
       dispatch(addUser(res.data.user));
-      navigate("/profile");
+      navigate("/feed");
     }
   };
 
