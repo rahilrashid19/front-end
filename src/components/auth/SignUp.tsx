@@ -14,6 +14,7 @@ import { BASE_URL } from "../../utils/constants";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { Label } from "@radix-ui/react-label";
 
 type Inputs = {
   firstName: string;
@@ -28,18 +29,30 @@ type Inputs = {
 
 const SignUp = () => {
   const { toast } = useToast();
-  const { register, handleSubmit, formState } = useForm<Inputs>();
+  const { register, handleSubmit, formState, watch } = useForm<Inputs>();
   const { errors, isSubmitting, isValid } = formState;
   const [formData, setFormData] = useState<Inputs>();
 
   const navigate = useNavigate();
 
+  watch("profilePic");
+
+  const convertToBase64 = (file: File) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const submitForm = async (data: Inputs) => {
     try {
       setFormData(data);
+      const base64Image = await convertToBase64(data.profilePic[0]);
       const res = await axios.post(
         BASE_URL + "signup",
-        { ...formData },
+        { ...formData, profilePic: base64Image },
         {
           withCredentials: true,
         }
@@ -51,7 +64,7 @@ const SignUp = () => {
         });
         setTimeout(() => {
           navigate("/login");
-        }, 4000);
+        }, 2000);
       }
     } catch (error) {
       const err = error as {
@@ -88,12 +101,12 @@ const SignUp = () => {
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label
+                <Label
                   htmlFor="firstName"
                   className="block text-sm font-medium text-gray-700"
                 >
                   First Name
-                </label>
+                </Label>
                 <Input
                   className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="First Name"
@@ -110,12 +123,12 @@ const SignUp = () => {
               </div>
 
               <div>
-                <label
+                <Label
                   htmlFor="lastName"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Last Name
-                </label>
+                </Label>
                 <Input
                   className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Last Name"
@@ -128,12 +141,12 @@ const SignUp = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label
+                <Label
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Email
-                </label>
+                </Label>
                 <Input
                   className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Email"
@@ -148,12 +161,12 @@ const SignUp = () => {
               </div>
 
               <div>
-                <label
+                <Label
                   htmlFor="password"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Password
-                </label>
+                </Label>
                 <Input
                   className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Password"
@@ -173,12 +186,12 @@ const SignUp = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label
+                <Label
                   htmlFor="gender"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Gender
-                </label>
+                </Label>
                 <Input
                   className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Gender"
@@ -193,12 +206,12 @@ const SignUp = () => {
               </div>
 
               <div>
-                <label
+                <Label
                   htmlFor="age"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Age
-                </label>
+                </Label>
                 <Input
                   className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Age"
@@ -215,15 +228,16 @@ const SignUp = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label
+                <Label
                   htmlFor="profilePic"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Profile Picture
-                </label>
+                </Label>
                 <Input
                   className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Profile Picture"
+                  type="file"
                   {...register("profilePic", {
                     required: false,
                   })}
@@ -231,12 +245,12 @@ const SignUp = () => {
               </div>
 
               <div>
-                <label
+                <Label
                   htmlFor="bio"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Bio
-                </label>
+                </Label>
                 <Input
                   className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   placeholder="Bio"

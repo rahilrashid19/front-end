@@ -2,7 +2,7 @@ import HomePage from "./components/HomePage";
 
 const App = () => {
   return (
-    <div className="bg-gray-200">
+    <div className="bg-black">
       <HomePage />
     </div>
   );
