@@ -25,7 +25,7 @@ const Navbar = () => {
       { withCredentials: true }
     );
 
-    if (res.data.message === "User Logged Out Successfully") {
+    if (res.data) {
       dispatch(removeUser());
       navigate("/login");
     }
@@ -37,7 +37,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
           <div className="flex-shrink-0">
-            <Link to="/" className="text-2xl font-bold">
+            <Link to="/feed" className="text-2xl font-bold">
               BrandName
             </Link>
           </div>
@@ -49,7 +49,7 @@ const Navbar = () => {
                 <img
                   src={data.user[0]?.profilePic}
                   alt="profilepic"
-                  className="w-10 h-10 rounded-full object-cover" // Tailwind classes for fixed size and rounded shape
+                  className="w-10 h-10 rounded-full object-cover"
                 />
               </DropdownMenuTrigger>
               <DropdownMenuContent>

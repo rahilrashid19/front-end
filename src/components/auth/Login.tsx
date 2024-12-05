@@ -8,6 +8,9 @@ import { BASE_URL } from "@/utils/constants";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "@/utils/slices/userSlice";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 type LoginForm = {
   email: string;
@@ -15,19 +18,33 @@ type LoginForm = {
 };
 
 const Login = () => {
-  const { register, handleSubmit } = useForm<LoginForm>();
+  const { register, handleSubmit, formState } = useForm<LoginForm>();
+  const { isSubmitting, errors } = formState;
+  const [err, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const submitLoginForm = async (data: LoginForm) => {
-    const res = await axios.post(
-      BASE_URL + "login",
-      { ...data },
-      { withCredentials: true }
-    );
-    if (res.status === 200) {
-      dispatch(addUser(res.data.user));
-      navigate("/feed");
+    try {
+      const res = await axios.post(
+        BASE_URL + "login",
+        { ...data },
+        { withCredentials: true }
+      );
+      if (res.status === 200) {
+        dispatch(addUser(res.data.user));
+        navigate("/feed");
+      }
+    } catch (error: any) {
+      setError(error.response?.data.message);
+      if (err) {
+        toast({
+          variant: "destructive",
+          title: err,
+          action: <ToastAction altText="Try again">Okay !</ToastAction>,
+        });
+      }
     }
   };
 
@@ -61,6 +78,7 @@ const Login = () => {
                     },
                   })}
                 />
+                <p className="text-sm text-red-600">{errors.email?.message}</p>
               </div>
 
               <div>
@@ -82,9 +100,12 @@ const Login = () => {
                     },
                   })}
                 />
+                <p className="text-sm text-red-600">
+                  {errors.password?.message}
+                </p>
               </div>
 
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
                 Login
               </Button>
             </div>
