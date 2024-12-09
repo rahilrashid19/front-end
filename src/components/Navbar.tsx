@@ -1,8 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "@/utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "@/utils/slices/userSlice";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,10 +37,38 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
-          <div className="flex-shrink-0">
-            <Link to="/feed" className="text-2xl font-bold">
-              BrandName
-            </Link>
+
+          <div className="flex-shrink-0 space-x-8">
+            <NavLink
+              to="/feed"
+              className={({ isActive }) =>
+                `text-2xl font-bold ${
+                  isActive ? "text-blue-500" : "text-white"
+                }`
+              }
+            >
+              👨‍💻 DevTinder
+            </NavLink>
+            <NavLink
+              to="/connections"
+              className={({ isActive }) =>
+                `text-2xl font-bold ${
+                  isActive ? "text-blue-500" : "text-white"
+                }`
+              }
+            >
+              Connections
+            </NavLink>
+            <NavLink
+              to="/requests"
+              className={({ isActive }) =>
+                `text-2xl font-bold ${
+                  isActive ? "text-blue-500" : "text-white"
+                }`
+              }
+            >
+              Requests
+            </NavLink>
           </div>
 
           {data.user[0] && (

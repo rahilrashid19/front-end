@@ -10,6 +10,8 @@ import { addUser, removeUser } from "@/utils/slices/userSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import PageNotFound from "./NotFound";
+import Connections from "./Connections";
+import Requests from "./Requests";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -59,6 +61,8 @@ const HomePage = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/feed" element={<Feed />} />
+        <Route path="/connections" element={<Connections />} />
+        <Route path="/requests" element={<Requests />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
