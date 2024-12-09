@@ -7,7 +7,7 @@ import axios from "axios";
 import { BASE_URL } from "@/utils/constants";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
-import { useDispatch, UseDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "@/utils/slices/userSlice";
 
 interface EditProfileProps {
@@ -25,7 +25,9 @@ interface User {
 
 const EditProfile = ({ onClose, user }: EditProfileProps) => {
   const dispatch = useDispatch();
+
   const { toast } = useToast();
+
   const { register, handleSubmit } = useForm({
     defaultValues: {
       firstName: user.firstName,

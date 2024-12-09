@@ -6,7 +6,9 @@ import { Button } from "./ui/button";
 import EditProfile from "./EditProfile";
 export const Profile = () => {
   const data = useSelector((state: RootState) => state.user);
+
   const [isEditble, setIsEditble] = useState(false);
+
   const showEditProfile = () => {
     setIsEditble(true);
   };
